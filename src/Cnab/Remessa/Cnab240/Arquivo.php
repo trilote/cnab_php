@@ -215,7 +215,8 @@ class Arquivo implements \Cnab\Remessa\IArquivo
         $detalhe->segmento_p->codigo_protesto = 3; // 3 = Não protestar
         $detalhe->segmento_p->prazo_protesto = 0;
         $detalhe->segmento_p->codigo_baixa = 1; // Baixar
-        $detalhe->segmento_p->prazo_baixa = $boleto['prazo']; // Baixar automaticamente após 30 dias
+
+        $detalhe->segmento_p->prazo_baixa = $boleto['prazo'] ?? '';
 
         $detalhe->segmento_p->codigo_ocorrencia = $boleto['codigo_ocorrencia'];
 
@@ -254,6 +255,10 @@ class Arquivo implements \Cnab\Remessa\IArquivo
         $detalhe->segmento_r->codigo_banco = $detalhe->segmento_p->codigo_banco;
         $detalhe->segmento_r->lote_servico = $detalhe->segmento_p->lote_servico;
         $detalhe->segmento_r->codigo_ocorrencia = $detalhe->segmento_p->codigo_ocorrencia;
+
+        if (isset($boleto['data_limite'])) {
+            $detalhe->segmento_r->data_limite = $boleto['data_limite'];
+        }
         
         if ($boleto['valor_multa'] > 0) {
             $detalhe->segmento_r->codigo_multa = 2;
