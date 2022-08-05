@@ -302,8 +302,8 @@ class Detalhe extends \Cnab\Format\Linha implements \Cnab\Retorno\IDetalhe
         $codigo = (int)$this->getCodigo();
 
         $table = array(
-			2 => 'Entrada Confirmada',
-			3 => 'Entrada Rejeitada',
+			2 => 'Entrada confirmada',
+			3 => 'Entrada rejeitada',
 			4 => 'Transferência de Carteira/Entrada',
 			5 => 'Transferência de Carteira/Baixa',
 			6 => 'Liquidação',
@@ -321,7 +321,7 @@ class Detalhe extends \Cnab\Format\Linha implements \Cnab\Retorno\IDetalhe
 			23 => 'Remessa a Cartório (Aponte em Cartório)',
 			24 => 'Retirada de Cartório e Manutenção em Carteira',
 			25 => 'Protestado e Baixado (Baixa por Ter Sido Protestado)',
-			26 => 'Instrução Rejeitada',
+			26 => 'Instrução rejeitada',
 			27 => 'Confirmação do Pedido de Alteração de Outros Dados',
 			28 => 'Débito de Tarifas/Custas',
 			29 => 'Ocorrências do Pagador',
@@ -373,6 +373,194 @@ class Detalhe extends \Cnab\Format\Linha implements \Cnab\Retorno\IDetalhe
     public function getCodigoLiquidacao() {
         // @TODO: Resgatar o código de liquidação
         return null;
+    }
+
+    public function getMotivoOcorrencia() {
+        return ltrim($this->segmento_t->motivo_ocorrencia, '0');
+    }
+
+    public function getNomeSacado()
+    {
+        return $this->segmento_t->nome_sacado;
+    }
+
+    public function getMotivoOcorrenciaNome()
+	{
+        $codigo = (int) $this->getCodigo();
+        $motivo_ocorrencia = $this->getMotivoOcorrencia();
+
+        $table_codigo_6 = [
+            '1' => 'Por saldo',
+            '2' => 'Por conta',
+            '3' => 'Liquidação no guichê de caixa em dinheiro',
+            '4' => 'Compensação eletrônica',
+            '5' => 'Compensação convencional',
+            '6' => 'Por meio eletrônico',
+            '7' => 'Após feriado local',
+            '8' => 'Em cartório',
+            '30' => 'Liquidação no guichê de caixa em cheque',
+            '31' => 'Liquidação em banco correspondente',
+            '32' => 'Liquidação terminal de auto-atendimento',
+            '33' => 'Liquidação na internet (Home banking)',
+            '34' => 'Liquidado office banking',
+            '35' => 'Liquidado correspondente em dinheiro',
+            '36' => 'Liquidado correspondente em cheque',
+            '37' => 'Liquidado por meio de central de atendimento (Telefone)',
+            '61' => 'Liquidado via PIX',
+        ];
+
+        $table_codigo_9 = [
+            '9' => 'Comandada banco',
+            '10' => 'Comandada cliente arquivo',
+            '11' => 'Comandada cliente on-line',
+            '12' => 'Decurso prazo - cliente',
+            '13' => 'Decurso prazo - banco',
+            '14' => 'Protestado',
+            '15' => 'Título excluído',
+        ];
+
+        $table_codigo_2_3_26 = [
+            '1' => 'Código do Banco Inválido',
+            '2' => 'Código do Registro Detalhe Inválido',
+            '3' => 'Código do Segmento Inválido',
+            '4' => 'Código de Movimento Não Permitido para Carteira',
+            '5' => 'Código de Movimento Inválido',
+            '6' => 'Tipo/Número de Inscrição do Beneficiário Inválidos',
+            '7' => 'Agência/Conta/DV Inválido',
+            '8' => 'Nosso número inválido',
+            '9' => 'Nosso número duplicado',
+            '10' => 'Carteira Inválida',
+            '11' => 'Forma de Cadastramento do Título Inválido',
+            '12' => 'Tipo de Documento Inválido',
+            '13' => 'Identificação da Emissão do Boleto de Pagamento Inválida',
+            '14' => 'Identificação da Distribuição do Boleto de Pagamento Inválida',
+            '15' => 'Características da Cobrança Incompatíveis',
+            '16' => 'Data de Vencimento Inválida',
+            '17' => 'Data de Vencimento Anterior a Data de Emissão',
+            '18' => 'Vencimento Fora do Prazo de Operação',
+            '19' => 'Título a Cargo de Bancos Correspondentes com Vencimento Inferior a XX Dias',
+            '20' => 'Valor do Título Inválido',
+            '21' => 'Espécie do Título Inválida',
+            '22' => 'Espécie do Título Não Permitida para a Carteira',
+            '23' => 'Aceite Inválido',
+            '24' => 'Data da Emissão Inválida',
+            '25' => 'Data da Emissão Posterior a Data de Entrada',
+            '26' => 'Código de Juros de Mora Inválido',
+            '27' => 'Valor/Taxa de Juros de Mora Inválido',
+            '28' => 'Código do Desconto Inválido',
+            '29' => 'Valor do Desconto Maior ou Igual ao Valor do Título',
+            '30' => 'Desconto a Conceder Não Confere',
+            '31' => 'Concessão de Desconto - Já Existe Desconto Anterior',
+            '32' => 'Valor do IOF Inválido',
+            '33' => 'Valor do Abatimento Inválido',
+            '34' => 'Valor do Abatimento Maior ou Igual ao Valor do Título',
+            '35' => 'Valor a Conceder Não Confere',
+            '36' => 'Concessão de Abatimento - Já Existe Abatimento Anterior',
+            '37' => 'Código para Protesto Inválido',
+            '38' => 'Prazo para Protesto Inválido',
+            '39' => 'Pedido de Protesto Não Permitido para o Título',
+            '40' => 'Título com Ordem de Protesto Emitida',
+            '41' => 'Pedido de Cancelamento/Sustação para Títulos sem Instrução de Protesto',
+            '42' => 'Código para Baixa/Devolução Inválido',
+            '43' => 'Prazo para Baixa/Devolução Inválido',
+            '44' => 'Código da Moeda Inválido',
+            '45' => 'Nome do Pagador Não Informado',
+            '46' => 'Tipo/Número de Inscrição do Pagador Inválidos',
+            '47' => 'Endereço do Pagador Não Informado',
+            '48' => 'CEP Inválido',
+            '49' => 'CEP Sem Praça de Cobrança (Não Localizado)',
+            '50' => 'CEP Referente a um Banco Correspondente',
+            '51' => 'CEP incompatível com a Unidade da Federação',
+            '52' => 'Unidade da Federação Inválida',
+            '53' => 'Tipo/Número de Inscrição do Sacador/Avalista Inválidos',
+            '54' => 'Sacador/Avalista Não Informado',
+            '55' => 'Nosso número no Banco Correspondente Não Informado',
+            '56' => 'Código do Banco Correspondente Não Informado',
+            '57' => 'Código da Multa Inválido',
+            '58' => 'Data da Multa Inválida',
+            '59' => 'Valor/Percentual da Multa Inválido',
+            '60' => 'Movimento para Título Não Cadastrado',
+            '61' => 'Alteração da Agência Cobradora/DV Inválida',
+            '62' => 'Tipo de Impressão Inválido',
+            '63' => 'Entrada para Título já Cadastrado',
+            '64' => 'Número da Linha Inválido',
+            '65' => 'Código do Banco para Débito Inválido',
+            '66' => 'Agência/Conta/DV para Débito Inválido',
+            '67' => 'Dados para Débito incompatível com a Identificação da Emissão do Boleto de Pagamento',
+            '68' => 'Débito Automático Agendado',
+            '69' => 'Débito Não Agendado - Erro nos Dados da Remessa',
+            '70' => 'Débito Não Agendado - Pagador Não Consta do Cadastro de Autorizante',
+            '71' => 'Débito Não Agendado - Beneficiário Não Autorizado pelo Pagador',
+            '72' => 'Débito Não Agendado - Beneficiário Não Participa da Modalidade Automático',
+            '73' => 'Débito Não Agendado - Código de Moeda Diferente de Real (R$)',
+            '74' => 'Débito Não Agendado - Data Vencimento Inválida',
+            '75' => 'Débito Não Agendado, Conforme seu Pedido, Título Não Registrado',
+            '76' => 'Débito Não Agendado, Tipo/Num. Inscrição do Debitado, Inválido',
+            '77' => 'Transferência para Desconto Não Permitida para a Carteira do Título',
+            '78' => 'Data Inferior ou Igual ao Vencimento para Débito Automático',
+            '79' => 'Data Juros de Mora Inválido',
+            '80' => 'Data do Desconto Inválida',
+            '81' => 'Tentativas de Débito Esgotadas - Baixado',
+            '82' => 'Tentativas de Débito Esgotadas - Pendente',
+            '83' => 'Limite Excedido',
+            '84' => 'Número Autorização Inexistente',
+            '85' => 'Título com Pagamento Vinculado',
+            '86' => 'Seu Número Inválido',
+            '87' => 'e-mail/SMS enviado',
+            '88' => 'e-mail Lido',
+            '89' => 'e-mail/SMS devolvido - endereço de e-mail ou número do celular incorreto',
+            '90' => 'e-mail devolvido - caixa postal cheia',
+            '91' => 'e-mail/número do celular do Pagador não informado',
+            '92' => 'Pagador optante por Boleto de Pagamento Eletrônico - e-mail não enviado',
+            '93' => 'Código para emissão de Boleto de Pagamento não permite envio de e-mail',
+            '94' => 'Código da Carteira inválido para envio e-mail.',
+            '95' => 'Contrato não permite o envio de e-mail',
+            '96' => 'Número de contrato inválido',
+            '97' => 'Rejeição da alteração do prazo limite de recebimento (a data deve ser informada no campo 28.3.p)',
+            '98' => 'Rejeição de dispensa de prazo limite de recebimento',
+            '99' => 'Rejeição da alteração do número do título dado pelo Beneficiário',
+            'A1' => 'Rejeição da alteração do número controle do participante',
+            'A2' => 'Rejeição da alteração dos dados do Pagador',
+            'A3' => 'Rejeição da alteração dos dados do Sacador/avalista',
+            'A4' => 'Pagador DDA',
+            'A5' => 'Registro Rejeitado – Título já Liquidado',
+            'A6' => 'Código do Convenente Inválido ou Encerrado',
+            'A7' => 'Título já se encontra na situação Pretendida',
+            'A8' => 'Valor do Abatimento inválido para cancelamento',
+            'A9' => 'Não autoriza pagamento parcial',
+            'B1' => 'Autoriza recebimento parcial',
+            'B2' => 'Valor Nominal do Título Conflitante',
+            'B3' => 'Tipo de Pagamento Inválido',
+            'B4' => 'Valor Máximo/Percentual Inválido',
+            'B5' => 'Valor Mínimo/Percentual Inválido',
+            'P1' => 'Registrado com QR Code Pix',
+            'P2' => 'Registrado sem QR Code Pix',
+            'P3' => 'Chave PIX – chave invalida',
+            'P4' => 'Chave PIX – sem cadastro na DICT',
+            'P5' => 'Chave PIX – não é compatível com o CNPJ',
+            'P6' => 'Identificador (TXID) – em duplicidade',
+            'P7' => 'Identificador (TXID) – inválido ou não encontrado',
+            'P8' => 'Ocorrência – alterar QR Code – alteração não permitida',
+            'P9' => 'ocorrência – cancela QR Code – cancelamento n]ao permitido',
+        ];
+
+        if (!in_array($codigo, [6, 9, 2, 3, 26])) {
+            return null;
+        }
+
+        if ($codigo == 6 && array_key_exists($motivo_ocorrencia, $table_codigo_6)) {
+            return $table_codigo_6[$motivo_ocorrencia];
+        }
+
+        if ($codigo == 9 && array_key_exists($motivo_ocorrencia, $table_codigo_9)) {
+            return $table_codigo_9[$motivo_ocorrencia];
+        }
+
+        if (array_key_exists($motivo_ocorrencia, $table_codigo_2_3_26)) {
+            return $table_codigo_2_3_26[$motivo_ocorrencia];
+        }
+
+        return 'Desconhecido';
     }
 
     /**
