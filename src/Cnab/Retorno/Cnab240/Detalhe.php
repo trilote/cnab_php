@@ -384,6 +384,11 @@ class Detalhe extends \Cnab\Format\Linha implements \Cnab\Retorno\IDetalhe
         return $this->segmento_t->nome_sacado;
     }
 
+    public function getDocumentoSacado()
+    {
+        return $this->segmento_t->documento_sacado;
+    }
+
     public function getMotivoOcorrenciaNome()
 	{
         $codigo = (int) $this->getCodigo();
