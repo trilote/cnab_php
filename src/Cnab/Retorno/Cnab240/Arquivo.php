@@ -152,4 +152,13 @@ class Arquivo implements \Cnab\Retorno\IArquivo
     public function getCodigoConvenio() {
         return $this->header->getCodigoConvenio();
     }
+
+    /**
+     * Retorna o código do cedente / código da empresa / código do convênio (cada banco chama de um nome)
+     * @return String
+     */
+    public function getCodigoCedente()
+    {
+        return $this->header->getCodigoCedente();
+    }
 }

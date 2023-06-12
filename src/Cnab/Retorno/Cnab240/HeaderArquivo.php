@@ -39,4 +39,11 @@ class HeaderArquivo extends \Cnab\Format\Linha
         else
             return null;
     }
+
+    public function getCodigoCedente() {
+        if ($this->existField('codigo_cedente'))
+            return $this->codigo_cedente;
+        else
+            return null;
+    }
 }
